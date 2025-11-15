@@ -6,6 +6,10 @@
     <File Path="global.json" />
     <File Path="nuget.config" />
   </Folder>
-  <Folder Name="/src/" />
-  <Folder Name="/tests/" />
+  <Folder Name="/src/">
+    <Project Path="src/Invop.Saga.Orchestrator.Core/Invop.Saga.Orchestrator.Core.csproj" Id="821da840-3e8e-42cd-98f0-de7c30d9a570" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Invop.Saga.Orchestrator.Core.Tests/Invop.Saga.Orchestrator.Core.Tests.csproj" Id="9c285944-58de-477f-9514-0d447f63b270" />
+  </Folder>
 </Solution>

@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Folder Include="Outbox\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Invop.Saga.Orchestrator.Core.Tests" />
+	</ItemGroup>
+</Project>
