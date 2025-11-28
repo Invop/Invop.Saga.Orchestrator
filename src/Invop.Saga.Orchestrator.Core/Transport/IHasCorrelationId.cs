@@ -1,4 +1,4 @@
-﻿namespace Invop.Saga.Orchestrator.Core.Abstractions;
+﻿namespace Invop.Saga.Orchestrator.Core.Transport;
 
 public interface IHasCorrelationId
 {

@@ -7,7 +7,10 @@
 		<PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0" />
 		<PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
 		<PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.100" />
-
+    <!--Core-->
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
 		<!--Tests-->
 		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
 		<PackageVersion Include="xunit.v3" Version="3.2.0" />

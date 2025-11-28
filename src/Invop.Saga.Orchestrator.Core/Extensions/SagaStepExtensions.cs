@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
 using System.Text;
-using Invop.Saga.Orchestrator.Core.Abstractions;
 using Invop.Saga.Orchestrator.Core.Attributes;
+using Invop.Saga.Orchestrator.Core.Transport;
 
 namespace Invop.Saga.Orchestrator.Core.Extensions;
 
 internal static class SagaStepExtensions
 {
-    extension(ISagaStep sagaStepSource)
+    extension(ISagaMessage sagaStepSource)
     {
         public string GetIdempotencyKey()
         {

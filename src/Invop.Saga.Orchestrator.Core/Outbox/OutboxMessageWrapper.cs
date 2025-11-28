@@ -1,6 +1,6 @@
-﻿namespace Invop.Saga.Orchestrator.Core.Abstractions.Outbox;
+﻿namespace Invop.Saga.Orchestrator.Core.Outbox;
 
-public sealed class OutboxMessage
+public sealed class OutboxMessageWrapper
 {
     public required string StepName { get; init; }
     public required string CorrelationId { get; init; }

@@ -1,4 +1,4 @@
-﻿namespace Invop.Saga.Orchestrator.Core.Abstractions.Outbox;
+﻿namespace Invop.Saga.Orchestrator.Core.Outbox;
 
 public interface IOutboxProcessor
 {
