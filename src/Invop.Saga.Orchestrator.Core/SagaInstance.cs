@@ -10,7 +10,7 @@ public abstract class SagaInstance : ISagaInstance
 
     public string InstanceId { get; }
 
-    public SagaState State { get; set; }
+    public required SagaState CurrentState { get; set; } = SagaState.Initial;
 
     protected SagaInstance(
     string instanceId,

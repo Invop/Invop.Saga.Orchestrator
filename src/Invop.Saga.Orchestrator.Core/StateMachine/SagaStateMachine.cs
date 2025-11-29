@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Invop.Saga.Orchestrator.Core;
 using Invop.Saga.Orchestrator.Core.Transport;
 
 namespace Invop.Saga.Orchestrator.Core.StateMachine;
@@ -35,6 +31,7 @@ public abstract class SagaStateMachine<TSagaInstance>
             handlers = new List<Func<TSagaInstance, IMessageContext<ISagaMessage>, Task>>();
             _stateHandlers[state] = handlers;
         }
+
         var configurator = new Configurator(handlers);
         config(configurator);
     }
@@ -45,7 +42,7 @@ public abstract class SagaStateMachine<TSagaInstance>
     protected void TransitionTo(TSagaInstance instance, SagaState state)
     {
         ArgumentNullException.ThrowIfNull(instance, nameof(instance));
-        instance.State = state;
+        instance.CurrentState = state;
     }
 
     /// <summary>
@@ -62,12 +59,16 @@ public abstract class SagaStateMachine<TSagaInstance>
         ArgumentNullException.ThrowIfNull(instance, nameof(instance));
         ArgumentNullException.ThrowIfNull(context, nameof(context));
 
-        var state = instance.State ?? SagaState.Initial;
-        List<Func<TSagaInstance, IMessageContext<ISagaMessage>, Task>>? handlers = null;
+        var state = instance.CurrentState ?? SagaState.Initial;
+        List<Func<TSagaInstance, IMessageContext<ISagaMessage>, Task>>? handlers;
         if (state == SagaState.Initial)
+        {
             handlers = _initialHandlers;
+        }
         else
+        {
             _stateHandlers.TryGetValue(state, out handlers);
+        }
 
         if (handlers != null)
         {
@@ -77,7 +78,34 @@ public abstract class SagaStateMachine<TSagaInstance>
             }
         }
     }
+    /// <summary>
+    /// Returns all message types handled by this saga state machine (via When&lt;TMessage&gt; in configuration).
+    /// </summary>
+    internal IEnumerable<Type> GetHandledMessageTypes()
+    {
+        var types = new HashSet<Type>();
+        // Initial state handlers
+        foreach (var del in _initialHandlers)
+        {
+            if (del.Target is Configurator configurator)
+            {
+                types.UnionWith(configurator.GetRegisteredMessageTypes());
+            }
+        }
+        // CurrentState handlers
+        foreach (var stateList in _stateHandlers.Values)
+        {
+            foreach (var del in stateList)
+            {
+                if (del.Target is Configurator configurator)
+                {
+                    types.UnionWith(configurator.GetRegisteredMessageTypes());
+                }
+            }
+        }
 
+        return types;
+    }
     /// <summary>
     /// Fluent configuration interface for state handlers.
     /// </summary>
@@ -88,11 +116,13 @@ public abstract class SagaStateMachine<TSagaInstance>
         void Then(Func<TSagaInstance, IMessageContext<ISagaMessage>, Task> action);
         void Publish(Func<TSagaInstance, ISagaMessage> messageFactory);
         void TransitionTo(SagaState state);
+        IEnumerable<Type> GetRegisteredMessageTypes();
     }
 
     private class Configurator : IConfigurator
     {
         private readonly List<Func<TSagaInstance, IMessageContext<ISagaMessage>, Task>> _handlers;
+        private readonly HashSet<Type> _registeredMessageTypes = new();
 
         public Configurator(List<Func<TSagaInstance, IMessageContext<ISagaMessage>, Task>> handlers)
         {
@@ -109,6 +139,7 @@ public abstract class SagaStateMachine<TSagaInstance>
                     await handler(instance, typedContext);
                 }
             });
+            _registeredMessageTypes.Add(typeof(TMessage));
         }
 
         public void Then(Func<TSagaInstance, IMessageContext<ISagaMessage>, Task> action)
@@ -131,9 +162,11 @@ public abstract class SagaStateMachine<TSagaInstance>
             _handlers.Add((instance, _) =>
             {
                 ArgumentNullException.ThrowIfNull(instance, nameof(instance));
-                instance.State = state;
+                instance.CurrentState = state;
                 return Task.CompletedTask;
             });
         }
+
+        public IEnumerable<Type> GetRegisteredMessageTypes() => _registeredMessageTypes;
     }
 }

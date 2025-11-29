@@ -22,7 +22,7 @@ public interface ISagaInstance
     /// <summary>
     /// Current state of the saga instance.
     /// </summary>
-    SagaState State { get; set; }
+    SagaState CurrentState { get; set; }
 
     /// <summary>
     /// Checks if the saga instance can process the given message context.
