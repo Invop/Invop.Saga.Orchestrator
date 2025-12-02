@@ -20,7 +20,7 @@ public sealed class RetryPolicyAttribute : Attribute
     /// For <see cref="BackoffStrategy.Linear"/>: delay increases linearly (e.g., 1000ms, 2000ms, 3000ms).
     /// For <see cref="BackoffStrategy.Exponential"/>: delay doubles each attempt (e.g., 1000ms, 2000ms, 4000ms).
     /// </remarks>
-    public int RetryDelayMilliseconds { get; set; } = 1000;
+    public int RetryDelayMilliseconds { get; init; } = 1000;
 
     /// <summary>
     /// The backoff strategy to use for calculating delays between retry attempts.
@@ -70,7 +70,7 @@ public sealed class RetryPolicyAttribute : Attribute
     /// NonRetryableExceptions = new[] { typeof(ArgumentException), typeof(UnauthorizedAccessException) }
     /// </code>
     /// </example>
-    public Type[]? NonRetryableExceptions { get; set; }
+    public Type[]? NonRetryableExceptions { get; init; }
 
     /// <summary>
     /// Timeout duration in milliseconds.
@@ -87,7 +87,7 @@ public sealed class RetryPolicyAttribute : Attribute
     /// Example: With exponential backoff, delays can grow to minutes - cap prevents this.
     /// See: https://learn.microsoft.com/azure/architecture/patterns/retry
     /// </remarks>
-    public int MaxRetryDelayMilliseconds { get; set; } = 30000; // 30 seconds
+    public int MaxRetryDelayMilliseconds { get; init; } = 30000; // 30 seconds
 
     /// <summary>
     /// Enable circuit breaker to prevent cascading failures.
@@ -98,19 +98,19 @@ public sealed class RetryPolicyAttribute : Attribute
     /// Recommended for saga retryable transactions (after pivot point).
     /// See: https://learn.microsoft.com/azure/architecture/patterns/circuit-breaker
     /// </remarks>
-    public bool EnableCircuitBreaker { get; set; }
+    public bool EnableCircuitBreaker { get; init; }
 
     /// <summary>
     /// Number of consecutive failures before circuit opens.
     /// Only applies when <see cref="EnableCircuitBreaker"/> is true.
     /// </summary>
-    public int CircuitBreakerThreshold { get; set; } = 5;
+    public int CircuitBreakerThreshold { get; init; } = 5;
 
     /// <summary>
     /// Duration in seconds the circuit stays open before attempting recovery.
     /// Only applies when <see cref="EnableCircuitBreaker"/> is true.
     /// </summary>
-    public int CircuitBreakerDurationSeconds { get; set; } = 60;
+    public int CircuitBreakerDurationSeconds { get; init; } = 60;
 }
 
 /// <summary>

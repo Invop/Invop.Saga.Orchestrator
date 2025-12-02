@@ -7,11 +7,11 @@ public sealed class IdempotencyKeyAttribute : Attribute
     /// Order in which this property should be included in the key.
     /// Lower values come first.
     /// </summary>
-    public int Order { get; private init; }
+    public int? Order { get; private init; }
 
-    public IdempotencyKeyAttribute(int order)
+    public IdempotencyKeyAttribute(int? order = null)
     {
-        if (order <= 0)
+        if (order is not null and < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(order), "Order must be non-negative.");
         }

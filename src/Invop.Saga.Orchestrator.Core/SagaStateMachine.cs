@@ -1,6 +1,6 @@
 using Invop.Saga.Orchestrator.Core.Transport;
 
-namespace Invop.Saga.Orchestrator.Core.StateMachine;
+namespace Invop.Saga.Orchestrator.Core;
 
 /// <summary>
 /// Base class for building strongly-typed saga state machines using ISagaInstance, SagaState, and ISagaMessage contracts.
@@ -81,7 +81,7 @@ public abstract class SagaStateMachine<TSagaInstance>
     /// <summary>
     /// Returns all message types handled by this saga state machine (via When&lt;TMessage&gt; in configuration).
     /// </summary>
-    internal IEnumerable<Type> GetHandledMessageTypes()
+    internal virtual IEnumerable<Type> GetHandledMessageTypes()
     {
         var types = new HashSet<Type>();
         // Initial state handlers
