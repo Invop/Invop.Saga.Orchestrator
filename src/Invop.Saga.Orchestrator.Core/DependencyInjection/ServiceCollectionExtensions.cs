@@ -22,8 +22,8 @@ public static class ServiceCollectionExtensions
         // Use options directly here
         services.AddSingleton<ISagaRegistry, SagaRegistry>();
 
-        var builder = new BusConfigurator(services);
-        busConfigurator?.Invoke(builder);
+        var busBuilder = new BusConfigurator(services);
+        busConfigurator?.Invoke(busBuilder);
 
         var sagaBuilder = new SagaRegistrationBuilder(services);
         sagaConfigurator?.Invoke(sagaBuilder);
