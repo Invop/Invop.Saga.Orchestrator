@@ -10,9 +10,4 @@ internal class BusConfigurator : IBusConfigurator
     }
 
     public IServiceCollection Services { get; }
-
-    public IBusConfigurator SetPublishOnly(bool publishOnly = true)
-    {
-        throw new NotImplementedException();
-    }
 }
