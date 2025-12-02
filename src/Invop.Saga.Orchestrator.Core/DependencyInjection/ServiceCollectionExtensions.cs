@@ -39,7 +39,7 @@ public static class ServiceCollectionExtensions
     /// <param name="busConfigurator">Optional bus configuration action</param>
     /// <param name="sagaConfigurator">Optional saga registration action</param>
     /// <returns>Service collection</returns>
-    public static IServiceCollection AddSagaOrchestratorCore(this IServiceCollection services,
+    public static IServiceCollection AddSagaOrchestrator(this IServiceCollection services,
         IConfiguration configuration,
         Action<IBusConfigurator>? busConfigurator = null,
         Action<ISagaRegistrationBuilder>? sagaConfigurator = null)
@@ -57,7 +57,7 @@ public static class ServiceCollectionExtensions
     /// <param name="busConfigurator">Optional bus configuration action</param>
     /// <param name="sagaConfigurator">Optional saga registration action</param>
     /// <returns>Service collection</returns>
-    public static IServiceCollection AddSagaOrchestratorCore(this IServiceCollection services,
+    public static IServiceCollection AddSagaOrchestrator(this IServiceCollection services,
         Action<EventBusOptions> configureOptions,
         Action<IBusConfigurator>? busConfigurator = null,
         Action<ISagaRegistrationBuilder>? sagaConfigurator = null)

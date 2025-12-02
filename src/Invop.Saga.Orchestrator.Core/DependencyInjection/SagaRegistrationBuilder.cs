@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Invop.Saga.Orchestrator.Core.Transport;
 
 namespace Invop.Saga.Orchestrator.Core.DependencyInjection;
 
@@ -26,6 +27,16 @@ internal class SagaRegistrationBuilder : ISagaRegistrationBuilder
             var stateMachine = provider.GetRequiredService<TStateMachine>();
             registry.RegisterSagaStateMachine(stateMachine);
         });
+        return this;
+    }
+
+    /// <inheritdoc />
+    public ISagaRegistrationBuilder AddHandler<TStep, THandler>()
+        where TStep : class, ISagaMessage
+        where THandler : class, ISagaMessageHandler<TStep>
+    {
+        ArgumentNullException.ThrowIfNull(_services);
+        _services.AddTransient<ISagaMessageHandler<TStep>, THandler>();
         return this;
     }
 }
