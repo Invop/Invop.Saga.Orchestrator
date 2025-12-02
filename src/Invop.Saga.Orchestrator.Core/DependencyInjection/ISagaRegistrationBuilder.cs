@@ -11,6 +11,6 @@ public interface ISagaRegistrationBuilder
     /// <typeparam name="TStateMachine">Saga state machine type</typeparam>
     /// <typeparam name="TInstance">Saga instance type</typeparam>
     ISagaRegistrationBuilder AddSaga<TStateMachine, TInstance>()
-        where TStateMachine : StateMachine.SagaStateMachine<TInstance>
+        where TStateMachine : SagaStateMachine<TInstance>
         where TInstance : class, ISagaInstance;
 }

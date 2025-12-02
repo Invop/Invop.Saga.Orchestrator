@@ -1,4 +1,3 @@
-using Invop.Saga.Orchestrator.Core.StateMachine;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Invop.Saga.Orchestrator.Core.DependencyInjection;
