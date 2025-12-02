@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace Invop.Saga.Orchestrator.Core.DependencyInjection;
 
 public static class ServiceCollectionExtensions
@@ -9,14 +10,16 @@ public static class ServiceCollectionExtensions
     /// Registers core services, bus configuration, and saga state machines in the DI container.
     /// </summary>
     /// <param name="services">Service collection</param>
+    /// <param name="options">Event bus options</param>
     /// <param name="busConfigurator">Optional bus configuration action</param>
     /// <param name="sagaConfigurator">Optional saga registration action</param>
     /// <returns>Service collection</returns>
-    public static IServiceCollection AddSagaOrchestratorCore(this IServiceCollection services,
+    private static IServiceCollection AddSagaOrchestratorCore(this IServiceCollection services,
+        EventBusOptions options,
         Action<IBusConfigurator>? busConfigurator = null,
         Action<ISagaRegistrationBuilder>? sagaConfigurator = null)
     {
-
+        // Use options directly here
         services.AddSingleton<ISagaRegistry, SagaRegistry>();
 
         var builder = new BusConfigurator(services);
@@ -41,8 +44,9 @@ public static class ServiceCollectionExtensions
         Action<IBusConfigurator>? busConfigurator = null,
         Action<ISagaRegistrationBuilder>? sagaConfigurator = null)
     {
+        var options = configuration.Get<EventBusOptions>() ?? new EventBusOptions();
         services.Configure<EventBusOptions>(configuration);
-        return services.AddSagaOrchestratorCore(busConfigurator, sagaConfigurator);
+        return services.AddSagaOrchestratorCore(options, busConfigurator, sagaConfigurator);
     }
 
     /// <summary>
@@ -58,7 +62,9 @@ public static class ServiceCollectionExtensions
         Action<IBusConfigurator>? busConfigurator = null,
         Action<ISagaRegistrationBuilder>? sagaConfigurator = null)
     {
+        var options = new EventBusOptions();
+        configureOptions(options);
         services.Configure(configureOptions);
-        return services.AddSagaOrchestratorCore(busConfigurator, sagaConfigurator);
+        return services.AddSagaOrchestratorCore(options, busConfigurator, sagaConfigurator);
     }
 }
