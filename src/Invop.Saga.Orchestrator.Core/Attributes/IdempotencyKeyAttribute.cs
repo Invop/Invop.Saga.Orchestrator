@@ -9,9 +9,9 @@ public sealed class IdempotencyKeyAttribute : Attribute
     /// </summary>
     public int? Order { get; private init; }
 
-    public IdempotencyKeyAttribute(int? order = null)
+    public IdempotencyKeyAttribute(int order)
     {
-        if (order is not null and < 0)
+        if (order < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(order), "Order must be non-negative.");
         }
