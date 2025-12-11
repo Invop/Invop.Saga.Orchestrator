@@ -1,6 +1,6 @@
-using Invop.Saga.Orchestrator.Core.Abstractions;
 using Invop.Saga.Orchestrator.Core.Attributes;
 using Invop.Saga.Orchestrator.Core.Extensions;
+using Invop.Saga.Orchestrator.Core.Transport;
 
 namespace Invop.Saga.Orchestrator.Core.Tests.Extensions;
 
@@ -10,7 +10,7 @@ public sealed class SagaStepExtensionsTests
     public void GetIdempotencyKey_ShouldThrowArgumentNullException_WhenSagaStepIsNull()
     {
         // Arrange
-        ISagaStep sagaStep = null!;
+        ISagaMessage sagaStep = null!;
 
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => sagaStep.GetIdempotencyKey());
@@ -210,15 +210,15 @@ public sealed class SagaStepExtensionsTests
         key1.ShouldNotBe(key2);
     }
 
-    // Test Saga Step Classes
+    // Test SagaInstance Step Classes
 
-    private sealed class TestSagaStepNoAttributes : ISagaStep
+    private sealed class TestSagaStepNoAttributes : ISagaMessage
     {
         public string CorrelationId { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;
     }
 
-    private sealed class TestSagaStepSingleProperty : ISagaStep
+    private sealed class TestSagaStepSingleProperty : ISagaMessage
     {
         public string CorrelationId { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;
@@ -227,7 +227,7 @@ public sealed class SagaStepExtensionsTests
         public string OrderId { get; set; } = string.Empty;
     }
 
-    private sealed class TestSagaStepMultipleProperties : ISagaStep
+    private sealed class TestSagaStepMultipleProperties : ISagaMessage
     {
         public string CorrelationId { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;
@@ -242,7 +242,7 @@ public sealed class SagaStepExtensionsTests
         public decimal Amount { get; set; }
     }
 
-    private sealed class TestSagaStepWithOrder : ISagaStep
+    private sealed class TestSagaStepWithOrder : ISagaMessage
     {
         public string CorrelationId { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;
@@ -257,7 +257,7 @@ public sealed class SagaStepExtensionsTests
         public string ThirdProperty { get; set; } = string.Empty;
     }
 
-    private sealed class TestSagaStepWithDecoratedCorrelationId : ISagaStep
+    private sealed class TestSagaStepWithDecoratedCorrelationId : ISagaMessage
     {
         [IdempotencyKey(1)]
         public string CorrelationId { get; set; } = string.Empty;
@@ -268,7 +268,7 @@ public sealed class SagaStepExtensionsTests
         public string UserId { get; set; } = string.Empty;
     }
 
-    private sealed class TestSagaStepMixedProperties : ISagaStep
+    private sealed class TestSagaStepMixedProperties : ISagaMessage
     {
         public string CorrelationId { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;
@@ -279,7 +279,7 @@ public sealed class SagaStepExtensionsTests
         public string NonDecoratedProperty { get; set; } = string.Empty;
     }
 
-    private sealed class TestSagaStepWithNullableProperty : ISagaStep
+    private sealed class TestSagaStepWithNullableProperty : ISagaMessage
     {
         public string CorrelationId { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;
@@ -288,7 +288,7 @@ public sealed class SagaStepExtensionsTests
         public string? NullableProperty { get; set; }
     }
 
-    private sealed class TestSagaStepVariousTypes : ISagaStep
+    private sealed class TestSagaStepVariousTypes : ISagaMessage
     {
         public string CorrelationId { get; set; } = string.Empty;
         public string RequestId { get; set; } = string.Empty;

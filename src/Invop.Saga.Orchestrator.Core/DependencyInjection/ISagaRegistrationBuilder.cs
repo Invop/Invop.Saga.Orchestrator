@@ -1,3 +1,5 @@
+using Invop.Saga.Orchestrator.Core.Transport;
+
 namespace Invop.Saga.Orchestrator.Core.DependencyInjection;
 
 /// <summary>
@@ -21,7 +23,7 @@ public interface ISagaRegistrationBuilder
     /// <typeparam name="THandler">The handler implementation type.</typeparam>
     /// <returns>The builder for fluent chaining.</returns>
     ISagaRegistrationBuilder AddHandler<TStep, THandler>()
-        where TStep : class, Transport.ISagaMessage
-        where THandler : class, Transport.ISagaMessageHandler<TStep>;
+        where TStep : class, ISagaMessage
+        where THandler : class, ISagaMessageHandler<TStep>;
 
 }
